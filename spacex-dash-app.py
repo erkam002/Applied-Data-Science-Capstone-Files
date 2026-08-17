@@ -35,7 +35,6 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                              # style={'width':'80%','padding':'3px','font-size':'20px','text-align-last':'center'}
                                              ),
                                 html.Br(),
-
                                 # TASK 2: Add a pie chart to show the total successful launches count for all sites
                                 # If a specific launch site was selected, show the Success vs. Failed counts for the site
                                 html.Div(dcc.Graph(id='success-pie-chart')),
@@ -50,11 +49,9 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                                 step=1000,
                                                 value=[min_payload, max_payload]
                                                 ),
-
                                 # TASK 4: Add a scatter chart to show the correlation between payload and launch success
                                 html.Div(dcc.Graph(id='success-payload-scatter-chart')),
                                 ])
-
 # TASK 2:
 # Add a callback function for `site-dropdown` as input, `success-pie-chart` as output
 @app.callback(Output(component_id='success-pie-chart', component_property='figure'),
@@ -72,7 +69,6 @@ def get_pie_chart(entered_site):
         filtered_df=filtered_df.groupby(['Launch Site','class']).size().reset_index(name='class count')
         fig=px.pie(filtered_df,values='class count',names='class',title=f"Total Success Launches for site {entered_site}")
         return fig
-
 # TASK 4:
 # Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as output
 @app.callback(Output(component_id='success-payload-scatter-chart',component_property='figure'),
@@ -88,7 +84,6 @@ def scatter(entered_site,payload):
     else:
         fig=px.scatter(filtered_df[filtered_df['Launch Site']==entered_site],x='Payload Mass (kg)',y='class',color='Booster Version Category',title=f"Success count on Payload mass for site {entered_site}")
         return fig
-
 # Run the app
 if __name__ == '__main__':
-    app.run_server(mode='inline', host='localhost')
+    app.run(host='localhost')
